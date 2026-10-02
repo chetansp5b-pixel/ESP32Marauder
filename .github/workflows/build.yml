@@ -31,6 +31,7 @@ jobs:
           arduino-cli lib install "JPEGDecoder"
           arduino-cli lib install "ArduinoJson"
           arduino-cli lib install "MicroNMEA"
+          arduino-cli lib install "EspSoftwareSerial"
           mkdir -p ~/Arduino/libraries
           git clone https://github.com/Makuna/NeoPixelBus.git ~/Arduino/libraries/NeoPixelBus
           git clone https://github.com/marian-craciunescu/ESP32Ping.git ~/Arduino/libraries/ESP32Ping
