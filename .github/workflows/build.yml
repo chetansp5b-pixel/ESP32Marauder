@@ -14,6 +14,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Patch EvilPortal Header Redefinitions
+        run: |
+          # Convert global definitions to static inline to prevent ODR linker failures
+          sed -i 's/String index_html =/static String index_html =/g' esp32_marauder/EvilPortal.h
+          sed -i 's/String apName =/static String apName =/g' esp32_marauder/EvilPortal.h
+
       - name: Setup Arduino CLI
         uses: arduino/setup-arduino-cli@v2
 
@@ -41,7 +47,7 @@ jobs:
 
       - name: Compile Marauder Firmware
         run: |
-          arduino-cli compile --fqbn esp32:esp32:esp32 --build-property "compiler.cpp.extra_flags=-D_EVILPORTAL_H_" --output-dir ./build esp32_marauder
+          arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir ./build esp32_marauder
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
