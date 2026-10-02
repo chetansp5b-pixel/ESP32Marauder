@@ -30,6 +30,9 @@ jobs:
           arduino-cli lib install "TFT_eSPI"
           arduino-cli lib install "JPEGDecoder"
           arduino-cli lib install "ArduinoJson"
+          arduino-cli lib install "ESP32Ping"
+          arduino-cli lib install "NimBLE-Arduino"
+          arduino-cli lib install "SwitchLib"
 
       - name: Compile Marauder Firmware
         run: |
