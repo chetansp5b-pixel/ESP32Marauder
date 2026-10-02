@@ -14,20 +14,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
 
-      - name: Install PlatformIO
-        run: pip install platformio
+      - name: Install ESP32 Board Core
+        run: |
+          arduino-cli config init
+          arduino-cli config set board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32@2.0.11
 
-      - name: Build Firmware
-        run: pio run -e esp32_marauder_v6
-        
+      - name: Install Required Libraries
+        run: |
+          arduino-cli lib install "LinkedList"
+          arduino-cli lib install "TFT_eSPI"
+          arduino-cli lib install "JPEGDecoder"
+
+      - name: Compile Marauder Firmware
+        run: |
+          arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir ./build esp32_marauder
+
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: esp32-marauder-custom-bin
-          path: .pio/build/**/*.bin
+          path: ./build/*.bin
           
