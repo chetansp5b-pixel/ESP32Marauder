@@ -23,7 +23,7 @@ jobs:
         run: pip install platformio
 
       - name: Build Firmware
-        run: pio run
+        run: pio run -e esp32dev
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
