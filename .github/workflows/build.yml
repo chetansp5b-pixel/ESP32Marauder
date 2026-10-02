@@ -33,6 +33,8 @@ jobs:
           mkdir -p ~/Arduino/libraries
           git clone https://github.com/marian-craciunescu/ESP32Ping.git ~/Arduino/libraries/ESP32Ping
           git clone https://github.com/h2zero/NimBLE-Arduino.git ~/Arduino/libraries/NimBLE-Arduino
+          git clone https://github.com/me-no-dev/ESPAsyncWebServer.git ~/Arduino/libraries/ESPAsyncWebServer
+          git clone https://github.com/me-no-dev/AsyncTCP.git ~/Arduino/libraries/AsyncTCP
 
       - name: Compile Marauder Firmware
         run: |
