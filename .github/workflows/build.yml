@@ -24,7 +24,7 @@ jobs:
           arduino-cli core update-index
           arduino-cli core install esp32:esp32@2.0.11
 
-            - name: Install Required Libraries
+      - name: Install Required Libraries
         run: |
           arduino-cli lib install "LinkedList"
           arduino-cli lib install "TFT_eSPI"
