@@ -14,44 +14,20 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Patch EvilPortal Header Redefinitions
-        run: |
-          # Convert global definitions to static inline to prevent ODR linker failures
-          sed -i 's/String index_html =/static String index_html =/g' esp32_marauder/EvilPortal.h
-          sed -i 's/String apName =/static String apName =/g' esp32_marauder/EvilPortal.h
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-      - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v2
+      - name: Install PlatformIO
+        run: pip install platformio
 
-      - name: Install ESP32 Board Core
-        run: |
-          arduino-cli config init
-          arduino-cli config set board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-          arduino-cli core update-index
-          arduino-cli core install esp32:esp32@2.0.11
-
-      - name: Install Required Libraries
-        run: |
-          arduino-cli lib install "LinkedList"
-          arduino-cli lib install "TFT_eSPI"
-          arduino-cli lib install "JPEGDecoder"
-          arduino-cli lib install "ArduinoJson"
-          arduino-cli lib install "MicroNMEA"
-          arduino-cli lib install "EspSoftwareSerial"
-          mkdir -p ~/Arduino/libraries
-          git clone https://github.com/Makuna/NeoPixelBus.git ~/Arduino/libraries/NeoPixelBus
-          git clone https://github.com/marian-craciunescu/ESP32Ping.git ~/Arduino/libraries/ESP32Ping
-          git clone https://github.com/h2zero/NimBLE-Arduino.git ~/Arduino/libraries/NimBLE-Arduino
-          git clone https://github.com/me-no-dev/ESPAsyncWebServer.git ~/Arduino/libraries/ESPAsyncWebServer
-          git clone https://github.com/me-no-dev/AsyncTCP.git ~/Arduino/libraries/AsyncTCP
-
-      - name: Compile Marauder Firmware
-        run: |
-          arduino-cli compile --fqbn esp32:esp32:esp32 --output-dir ./build esp32_marauder
+      - name: Build Firmware with PlatformIO
+        run: pio run -e esp32dev
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: esp32-marauder-custom-bin
-          path: ./build/*.bin
+          path: .pio/build/esp32dev/firmware.bin
           
