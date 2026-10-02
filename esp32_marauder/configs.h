@@ -3,7 +3,6 @@
 #define ANALOG_AN_Y 32
 #define C_BTN 34
 
-
 #pragma once
 
 #ifndef configs_h
