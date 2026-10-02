@@ -30,9 +30,9 @@ jobs:
           arduino-cli lib install "TFT_eSPI"
           arduino-cli lib install "JPEGDecoder"
           arduino-cli lib install "ArduinoJson"
-          arduino-cli lib install "ESP32Ping"
-          arduino-cli lib install "NimBLE-Arduino"
-          arduino-cli lib install "SwitchLib"
+          mkdir -p ~/Arduino/libraries
+          git clone https://github.com/marian-craciunescu/ESP32Ping.git ~/Arduino/libraries/ESP32Ping
+          git clone https://github.com/h2zero/NimBLE-Arduino.git ~/Arduino/libraries/NimBLE-Arduino
 
       - name: Compile Marauder Firmware
         run: |
